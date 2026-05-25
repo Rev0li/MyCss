@@ -27,6 +27,8 @@
   --border:                rgba(17, 17, 17, 0.08);
   --input:                 rgba(17, 17, 17, 0.08);
   --ring:                  #E8B7C4;
+  --overlay:               rgba(17, 17, 17, 0.06);  /* subtle bg tint, hover states */
+  --fg-muted-2:            rgba(17, 17, 17, 0.35);  /* very faint text, placeholders */
 
   /* ── Surfaces ── */
   --surface:               #FCFBF8;
@@ -90,6 +92,8 @@
   --border:                rgba(255, 255, 255, 0.08);
   --input:                 rgba(255, 255, 255, 0.08);
   --ring:                  #E8B7C4;
+  --overlay:               rgba(255, 255, 255, 0.06);
+  --fg-muted-2:            rgba(247, 244, 239, 0.35);
 
   /* ── Surfaces ── */
   --surface:               #1A1A1A;
