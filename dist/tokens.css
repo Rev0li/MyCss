@@ -1,4 +1,7 @@
 /**
+ * ⚠️ OBSOLÈTE — remplacé par dist/rv-tokens.css (palette v1, préfixe --rv-).
+ * Conservé tant que ses consommateurs actuels n'ont pas migré ; ne plus l'utiliser pour du neuf.
+ *
  * MyCss Design Tokens
  * Pure CSS custom properties — no framework dependency.
  * Import via CDN: https://cdn.jsdelivr.net/gh/Rev0li/MyCss@main/dist/tokens.css
