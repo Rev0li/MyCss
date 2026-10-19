@@ -1,0 +1,191 @@
+/**
+ * MyCss — rv-tokens v1.0.0 (palette v1, validée le 2026-10-19)
+ * Custom properties CSS pures, sans framework.
+ *
+ * Import (version figée) :
+ *   @import url('https://cdn.jsdelivr.net/gh/Rev0li/MyCss@v1.0.0/dist/rv-tokens.css');
+ *
+ * Polices (Google Fonts) :
+ *   https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400..900&family=Pixelify+Sans:wght@400..600&family=JetBrains+Mono:wght@400;500&display=swap
+ *
+ * Modes :
+ *   clair   — par défaut
+ *   sombre  — suit prefers-color-scheme ; forçable avec data-theme="dark" | "light"
+ *   sobre   — data-mode="sobre" (cas d'étude, apps) ; clair uniquement, bande sombre pour les blocs techniques
+ * Les attributs marchent sur <html> ou sur n'importe quel bloc.
+ *
+ * Règles :
+ *   - 2 couleurs fortes max (turquoise, rose) ; ocre en détail ; violet = IA uniquement.
+ *   - Texte coloré → variante -ink (contraste ≥ 4,5:1 vérifié sur bg et surface).
+ *   - Texte posé sur une couleur → --rv-on-accent, dans tous les modes.
+ *   - États (success, danger, warning) : jamais décoratifs.
+ */
+
+/* ── Clair (défaut) ── */
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+
+  --rv-bg:          #EEECE8;
+  --rv-surface:     #FAF8F5;
+  --rv-panel:       #E5E2DD;
+  --rv-ink:         #1C1A1B;
+  --rv-muted:       #625C5F;
+  --rv-line:        rgba(28, 26, 27, .16);
+  --rv-dots:        rgba(28, 26, 27, .11);
+  --rv-hard:        rgba(28, 26, 27, .9);
+
+  --rv-turq:        #00CFC1;
+  --rv-turq-ink:    #00706A;
+  --rv-rose:        #E8B7C4;
+  --rv-rose-ink:    #9A4A61;
+  --rv-ocre:        #E3C9A0;
+  --rv-violet:      #B7A3EC;   /* IA uniquement */
+  --rv-violet-ink:  #6A4FC4;
+
+  --rv-success-ink: #1E6B47;
+  --rv-danger-ink:  #B3261E;
+  --rv-warning-ink: #8A5A00;
+}
+
+/* ── Sombre ── */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --rv-bg:          #121113;
+    --rv-surface:     #1C1B1E;
+    --rv-panel:       #1A191B;
+    --rv-ink:         #EDEAE6;
+    --rv-muted:       #A39C9F;
+    --rv-line:        rgba(237, 234, 230, .14);
+    --rv-dots:        rgba(237, 234, 230, .07);
+    --rv-hard:        rgba(0, 0, 0, .7);
+
+    --rv-turq-ink:    #2EE6D6;
+    --rv-rose-ink:    #F2C4D0;
+    --rv-violet-ink:  #C9B8FF;
+
+    --rv-success-ink: #6FD7A2;
+    --rv-danger-ink:  #FF9C8C;
+    --rv-warning-ink: #F2C46B;
+  }
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --rv-bg:          #121113;
+  --rv-surface:     #1C1B1E;
+  --rv-panel:       #1A191B;
+  --rv-ink:         #EDEAE6;
+  --rv-muted:       #A39C9F;
+  --rv-line:        rgba(237, 234, 230, .14);
+  --rv-dots:        rgba(237, 234, 230, .07);
+  --rv-hard:        rgba(0, 0, 0, .7);
+
+  --rv-turq-ink:    #2EE6D6;
+  --rv-rose-ink:    #F2C4D0;
+  --rv-violet-ink:  #C9B8FF;
+
+  --rv-success-ink: #6FD7A2;
+  --rv-danger-ink:  #FF9C8C;
+  --rv-warning-ink: #F2C46B;
+}
+
+/* ── Sobre (clair uniquement, l'emporte sur le sombre) ── */
+:root[data-mode="sobre"],
+[data-mode="sobre"] {
+  color-scheme: light;
+
+  --rv-bg:          #F4F3F0;
+  --rv-surface:     #FFFFFF;
+  --rv-panel:       #EAE8E4;
+  --rv-ink:         #16181A;
+  --rv-muted:       #5B6064;
+  --rv-line:        rgba(22, 24, 26, .12);
+  --rv-dots:        rgba(22, 24, 26, .08);
+  --rv-hard:        rgba(22, 24, 26, .9);
+
+  --rv-turq:        #00A99D;   /* un seul accent, plus profond */
+  --rv-turq-ink:    #00706A;
+  --rv-rose-ink:    #9A4A61;
+  --rv-violet-ink:  #6A4FC4;
+
+  --rv-success-ink: #1E6B47;
+  --rv-danger-ink:  #B3261E;
+  --rv-warning-ink: #8A5A00;
+
+  --rv-radius-control: 8px;
+  --rv-gutter:      max(48px, calc((100% - 1200px) / 2));
+}
+
+/* ── Communs à tous les modes ── */
+:root {
+  /* Encre fixe pour du texte posé sur une couleur */
+  --rv-on-accent:   #0E1413;
+
+  /* États — fonds (texte dessus : --rv-on-accent) */
+  --rv-success:     #5BC48C;
+  --rv-danger:      #EF7A6A;
+  --rv-warning:     #F2B84B;
+
+  /* Bande sombre (blocs techniques, contact) — identique dans tous les modes */
+  --rv-band:        #101315;
+  --rv-band-2:      #181C1F;
+  --rv-band-ink:    #E8ECEC;
+  --rv-band-muted:  #8E9A9A;
+  --rv-band-line:   rgba(232, 236, 236, .12);
+
+  /* Typographie */
+  --rv-font-sans:   'Schibsted Grotesk', system-ui, sans-serif;
+  --rv-font-pixel:  'Pixelify Sans', 'JetBrains Mono', monospace;   /* absente du mode sobre */
+  --rv-font-mono:   'JetBrains Mono', ui-monospace, monospace;
+
+  --rv-text-hero:   clamp(64px, 12vw, 164px);
+  --rv-text-h2:     88px;
+  --rv-text-lg:     22px;
+  --rv-text-body:   17px;
+  --rv-text-label:  12px;
+  --rv-track-hero:  -.055em;
+  --rv-track-h2:    -.05em;
+  --rv-track-label: .06em;
+
+  /* Formes */
+  --rv-radius-window:  12px;
+  --rv-radius-control: 999px;
+  --rv-radius-sm:      8px;
+  --rv-line-w:         1px;
+  --rv-control-h:      44px;
+
+  /* Mise en page */
+  --rv-gutter:      max(48px, calc((100% - 1344px) / 2));
+  --rv-section-gap: 140px;
+
+  /* Mouvement : ≤ 300 ms, jamais de rebond */
+  --rv-ease:        ease;
+  --rv-dur:         200ms;
+  --rv-dur-slow:    300ms;
+}
+
+/* Dérivés : recalculés dans chaque bloc qui change de mode */
+:root,
+[data-theme],
+[data-mode] {
+  --rv-success-soft: color-mix(in oklab, var(--rv-success) 16%, var(--rv-surface));
+  --rv-danger-soft:  color-mix(in oklab, var(--rv-danger) 16%, var(--rv-surface));
+  --rv-warning-soft: color-mix(in oklab, var(--rv-warning) 16%, var(--rv-surface));
+  --rv-turq-soft:    color-mix(in oklab, var(--rv-turq) 12%, var(--rv-surface));
+
+  --rv-shadow-hard:  4px 4px 0 var(--rv-hard);
+  --rv-shadow-gel:   2px 2px 0 var(--rv-ink);
+  --rv-focus-ring:   3px solid var(--rv-turq);
+  --rv-focus-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --rv-dur:      0ms;
+    --rv-dur-slow: 0ms;
+  }
+}
