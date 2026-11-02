@@ -37,6 +37,8 @@
   --rv-hard:        rgba(28, 26, 27, .9);
   --rv-line-strong: rgba(28, 26, 27, .28);
   --rv-glass-line:  rgba(255, 255, 255, .65);
+  --rv-glass-fill:  52%;
+  --rv-glass-fill-strong: 82%;
 
   --rv-turq:        #00CFC1;
   --rv-turq-ink:    #00706A;
@@ -66,6 +68,8 @@
     --rv-hard:        rgba(0, 0, 0, .7);
     --rv-line-strong: rgba(237, 234, 230, .24);
     --rv-glass-line:  rgba(255, 255, 255, .14);
+    --rv-glass-fill:  45%;
+    --rv-glass-fill-strong: 75%;
 
     --rv-turq-ink:    #2EE6D6;
     --rv-rose-ink:    #F2C4D0;
@@ -90,6 +94,8 @@
   --rv-hard:        rgba(0, 0, 0, .7);
   --rv-line-strong: rgba(237, 234, 230, .24);
   --rv-glass-line:  rgba(255, 255, 255, .14);
+  --rv-glass-fill:  45%;
+  --rv-glass-fill-strong: 75%;
 
   --rv-turq-ink:    #2EE6D6;
   --rv-rose-ink:    #F2C4D0;
@@ -115,6 +121,8 @@
   --rv-hard:        rgba(22, 24, 26, .9);
   --rv-line-strong: rgba(22, 24, 26, .22);
   --rv-glass-line:  rgba(255, 255, 255, .65);
+  --rv-glass-fill:  52%;
+  --rv-glass-fill-strong: 82%;
 
   --rv-turq:        #00A99D;   /* un seul accent, plus profond */
   --rv-turq-ink:    #00706A;
@@ -147,6 +155,8 @@
     --rv-dots:        rgba(232, 236, 236, .07);
     --rv-hard:        rgba(0, 0, 0, .7);
     --rv-glass-line:  rgba(255, 255, 255, .14);
+    --rv-glass-fill:  45%;
+    --rv-glass-fill-strong: 75%;
 
     --rv-turq:        #2EE6D6;
     --rv-turq-ink:    #2EE6D6;
@@ -176,6 +186,8 @@
   --rv-dots:        rgba(232, 236, 236, .07);
   --rv-hard:        rgba(0, 0, 0, .7);
   --rv-glass-line:  rgba(255, 255, 255, .14);
+  --rv-glass-fill:  45%;
+  --rv-glass-fill-strong: 75%;
 
   --rv-turq:        #2EE6D6;
   --rv-turq-ink:    #2EE6D6;
@@ -254,8 +266,8 @@
   --rv-shadow-gel:   2px 2px 0 var(--rv-hard);
   --rv-focus-ring:   3px solid var(--rv-turq);
   /* Verre : étiquettes et barres posées sur une image */
-  --rv-glass:        color-mix(in oklab, var(--rv-surface) 52%, transparent);
-  --rv-glass-strong: color-mix(in oklab, var(--rv-surface) 82%, transparent);
+  --rv-glass:        color-mix(in oklab, var(--rv-surface) var(--rv-glass-fill), transparent);
+  --rv-glass-strong: color-mix(in oklab, var(--rv-surface) var(--rv-glass-fill-strong), transparent);
   --rv-focus-offset: 3px;
 }
 
