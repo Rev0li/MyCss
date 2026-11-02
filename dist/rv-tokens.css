@@ -1,9 +1,9 @@
 /**
- * MyCss — rv-tokens v1.0.0 (palette v1, validée le 2026-10-19)
+ * MyCss — rv-tokens v1.1.0 (palette v1 validée le 2026-10-19 ; sobre sombre + tokens de la planche le 2026-11-02)
  * Custom properties CSS pures, sans framework.
  *
  * Import (version figée) :
- *   @import url('https://cdn.jsdelivr.net/gh/Rev0li/MyCss@v1.0.0/dist/rv-tokens.css');
+ *   @import url('https://cdn.jsdelivr.net/gh/Rev0li/MyCss@v1.1.0/dist/rv-tokens.css');
  *
  * Polices (Google Fonts) :
  *   https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400..900&family=Pixelify+Sans:wght@400..600&family=JetBrains+Mono:wght@400;500&display=swap
@@ -11,7 +11,8 @@
  * Modes :
  *   clair   — par défaut
  *   sombre  — suit prefers-color-scheme ; forçable avec data-theme="dark" | "light"
- *   sobre   — data-mode="sobre" (cas d'étude, apps) ; clair uniquement, bande sombre pour les blocs techniques
+ *   sobre   — data-mode="sobre" (cas d'étude, apps) ; clair et sombre, même logique de thème que ci-dessus ;
+ *             bande sombre pour les blocs techniques
  * Les attributs marchent sur <html> ou sur n'importe quel bloc.
  *
  * Règles :
@@ -34,6 +35,8 @@
   --rv-line:        rgba(28, 26, 27, .16);
   --rv-dots:        rgba(28, 26, 27, .11);
   --rv-hard:        rgba(28, 26, 27, .9);
+  --rv-line-strong: rgba(28, 26, 27, .28);
+  --rv-glass-line:  rgba(255, 255, 255, .65);
 
   --rv-turq:        #00CFC1;
   --rv-turq-ink:    #00706A;
@@ -61,6 +64,8 @@
     --rv-line:        rgba(237, 234, 230, .14);
     --rv-dots:        rgba(237, 234, 230, .07);
     --rv-hard:        rgba(0, 0, 0, .7);
+    --rv-line-strong: rgba(237, 234, 230, .24);
+    --rv-glass-line:  rgba(255, 255, 255, .14);
 
     --rv-turq-ink:    #2EE6D6;
     --rv-rose-ink:    #F2C4D0;
@@ -83,6 +88,8 @@
   --rv-line:        rgba(237, 234, 230, .14);
   --rv-dots:        rgba(237, 234, 230, .07);
   --rv-hard:        rgba(0, 0, 0, .7);
+  --rv-line-strong: rgba(237, 234, 230, .24);
+  --rv-glass-line:  rgba(255, 255, 255, .14);
 
   --rv-turq-ink:    #2EE6D6;
   --rv-rose-ink:    #F2C4D0;
@@ -93,7 +100,7 @@
   --rv-warning-ink: #F2C46B;
 }
 
-/* ── Sobre (clair uniquement, l'emporte sur le sombre) ── */
+/* ── Sobre clair ── */
 :root[data-mode="sobre"],
 [data-mode="sobre"] {
   color-scheme: light;
@@ -106,6 +113,8 @@
   --rv-line:        rgba(22, 24, 26, .12);
   --rv-dots:        rgba(22, 24, 26, .08);
   --rv-hard:        rgba(22, 24, 26, .9);
+  --rv-line-strong: rgba(22, 24, 26, .22);
+  --rv-glass-line:  rgba(255, 255, 255, .65);
 
   --rv-turq:        #00A99D;   /* un seul accent, plus profond */
   --rv-turq-ink:    #00706A;
@@ -118,6 +127,67 @@
 
   --rv-radius-control: 8px;
   --rv-gutter:      max(48px, calc((100% - 1200px) / 2));
+  --rv-text-h2:     44px;     /* titres de cas d'étude, plus compacts */
+  --rv-track-label: .08em;
+}
+
+/* ── Sobre sombre ── suit le thème de la page (data-theme ou prefers-color-scheme) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"])[data-mode="sobre"],
+  :root:not([data-theme="light"]) [data-mode="sobre"]:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --rv-bg:          #0E1012;
+    --rv-surface:     #15181B;
+    --rv-panel:       #1B1F22;
+    --rv-ink:         #E8ECEC;
+    --rv-muted:       #9AA3A6;
+    --rv-line:        rgba(232, 236, 236, .10);
+    --rv-line-strong: rgba(232, 236, 236, .20);
+    --rv-dots:        rgba(232, 236, 236, .07);
+    --rv-hard:        rgba(0, 0, 0, .7);
+    --rv-glass-line:  rgba(255, 255, 255, .14);
+
+    --rv-turq:        #2EE6D6;
+    --rv-turq-ink:    #2EE6D6;
+    --rv-rose-ink:    #F2C4D0;
+    --rv-violet-ink:  #C9B8FF;
+
+    --rv-success-ink: #6FD7A2;
+    --rv-danger-ink:  #FF9C8C;
+    --rv-warning-ink: #F2C46B;
+
+    --rv-band:        #070809;
+    --rv-band-2:      #101315;
+  }
+}
+
+[data-theme="dark"][data-mode="sobre"],
+[data-theme="dark"] [data-mode="sobre"]:not([data-theme="light"]) {
+  color-scheme: dark;
+
+  --rv-bg:          #0E1012;
+  --rv-surface:     #15181B;
+  --rv-panel:       #1B1F22;
+  --rv-ink:         #E8ECEC;
+  --rv-muted:       #9AA3A6;
+  --rv-line:        rgba(232, 236, 236, .10);
+  --rv-line-strong: rgba(232, 236, 236, .20);
+  --rv-dots:        rgba(232, 236, 236, .07);
+  --rv-hard:        rgba(0, 0, 0, .7);
+  --rv-glass-line:  rgba(255, 255, 255, .14);
+
+  --rv-turq:        #2EE6D6;
+  --rv-turq-ink:    #2EE6D6;
+  --rv-rose-ink:    #F2C4D0;
+  --rv-violet-ink:  #C9B8FF;
+
+  --rv-success-ink: #6FD7A2;
+  --rv-danger-ink:  #FF9C8C;
+  --rv-warning-ink: #F2C46B;
+
+  --rv-band:        #070809;
+  --rv-band-2:      #101315;
 }
 
 /* ── Communs à tous les modes ── */
@@ -130,7 +200,7 @@
   --rv-danger:      #EF7A6A;
   --rv-warning:     #F2B84B;
 
-  /* Bande sombre (blocs techniques, contact) — identique dans tous les modes */
+  /* Bande sombre (blocs techniques, contact) — plus profonde en sobre sombre */
   --rv-band:        #101315;
   --rv-band-2:      #181C1F;
   --rv-band-ink:    #E8ECEC;
@@ -142,7 +212,7 @@
   --rv-font-pixel:  'Pixelify Sans', 'JetBrains Mono', monospace;   /* absente du mode sobre */
   --rv-font-mono:   'JetBrains Mono', ui-monospace, monospace;
 
-  --rv-text-hero:   clamp(64px, 12vw, 164px);
+  --rv-text-hero:   clamp(40px, 7.6vw, 110px);
   --rv-text-h2:     88px;
   --rv-text-lg:     22px;
   --rv-text-body:   17px;
@@ -152,9 +222,12 @@
   --rv-track-label: .06em;
 
   /* Formes */
-  --rv-radius-window:  12px;
-  --rv-radius-control: 999px;
+  --rv-radius-xs:      6px;     /* tags, puces de code */
   --rv-radius-sm:      8px;
+  --rv-radius-md:      10px;    /* cartes internes, étapes */
+  --rv-radius-window:  12px;
+  --rv-radius-lg:      16px;    /* bandes, terminaux */
+  --rv-radius-control: 999px;
   --rv-line-w:         1px;
   --rv-control-h:      44px;
 
@@ -178,8 +251,11 @@
   --rv-turq-soft:    color-mix(in oklab, var(--rv-turq) 12%, var(--rv-surface));
 
   --rv-shadow-hard:  4px 4px 0 var(--rv-hard);
-  --rv-shadow-gel:   2px 2px 0 var(--rv-ink);
+  --rv-shadow-gel:   2px 2px 0 var(--rv-hard);
   --rv-focus-ring:   3px solid var(--rv-turq);
+  /* Verre : étiquettes et barres posées sur une image */
+  --rv-glass:        color-mix(in oklab, var(--rv-surface) 52%, transparent);
+  --rv-glass-strong: color-mix(in oklab, var(--rv-surface) 82%, transparent);
   --rv-focus-offset: 3px;
 }
 
