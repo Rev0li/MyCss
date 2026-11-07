@@ -5,17 +5,17 @@ Design system de l'univers Rev0 : tokens (palette, typographie, formes, mouvemen
 ## Utilisation
 
 ```css
-@import url('https://cdn.jsdelivr.net/gh/Rev0li/MyCss@v1.2.0/dist/rv-tokens.css');
-@import url('https://cdn.jsdelivr.net/gh/Rev0li/MyCss@v1.2.0/dist/rv-components.css');
+@import url('https://cdn.jsdelivr.net/gh/Rev0li/MyCss@v1.3.0/dist/rv-tokens.css');
+@import url('https://cdn.jsdelivr.net/gh/Rev0li/MyCss@v1.3.0/dist/rv-components.css');
 /* Optionnel : base de page (body, liens, focus), si la page n'a pas déjà la sienne */
-@import url('https://cdn.jsdelivr.net/gh/Rev0li/MyCss@v1.2.0/dist/rv-base.css');
+@import url('https://cdn.jsdelivr.net/gh/Rev0li/MyCss@v1.3.0/dist/rv-base.css');
 ```
 
-Toujours pointer sur un **tag** (`@v1.2.0`), jamais sur `@main`.
+Toujours pointer sur un **tag** (`@v1.3.0`), jamais sur `@main`.
 
 Polices (Google Fonts ou Fontsource) : Schibsted Grotesk, Pixelify Sans, JetBrains Mono — lien complet en tête de `dist/rv-tokens.css`.
 
-**Vitrine :** ouvrir `index.html` dans un navigateur. Elle montre tokens et composants, avec un sélecteur de thème (auto, clair, sombre) et de mode (Rev0, sobre). Elle sert aussi de test visuel.
+**Vitrine :** `python3 -m http.server` à la racine du repo, puis ouvrir http://localhost:8000 (en `file://`, les icônes ne s'affichent pas). Elle montre tokens et composants, avec un sélecteur de thème (auto, clair, sombre) et de mode (Rev0, sobre). Elle sert aussi de test visuel.
 
 ## Fichiers
 
@@ -24,6 +24,10 @@ Polices (Google Fonts ou Fontsource) : Schibsted Grotesk, Pixelify Sans, JetBrai
 | `dist/rv-tokens.css` | Custom properties `--rv-*` : couleurs, typo, formes, mouvement, modes | non (`:root` et attributs) |
 | `dist/rv-components.css` | Classes `.rv-*` : composants | non |
 | `dist/rv-base.css` | Base de page : `body`, liens, focus, défilement | oui, optionnel |
+| `assets/stickers/` | Stickers kawaii (SVG) | — |
+| `assets/icons/ui/` | Pictos au trait : thème, cadenas, 7 domaines de la stack | — |
+| `assets/icons/tools/` + `tools.json` | Icônes d'outils et de marques (Simple Icons, CC0), couleur de marque dans le JSON | — |
+| `assets/favicon.svg` | Favicon Rev0 | — |
 | `index.html` | Vitrine | — |
 
 ## Modes
@@ -43,7 +47,7 @@ Les attributs marchent sur `<html>` ou sur un bloc :
 
 Le mode sobre suit le thème : `data-theme="dark"` sur la page (ou `prefers-color-scheme: dark`) passe aussi les blocs sobres en sombre ; `data-theme="light"` sur un bloc le garde clair.
 
-## Composants (v1.2)
+## Composants (v1.3)
 
 | Classe | Rôle | En sobre |
 |---|---|---|
@@ -56,6 +60,8 @@ Le mode sobre suit le thème : `data-theme="dark"` sur la page (ou `prefers-colo
 | `.rv-next` `.rv-next-q` `.rv-bob` | Question de bas de section qui mène à la suivante | — |
 | `.rv-nav` `.rv-nav-link` `.rv-nav-cta` `.rv-icon-btn` `.rv-avatar` | Barre du haut collante (56 px) | avatar à bord fin |
 | `.rv-key` `.rv-hint` | Touche en relief (`aria-pressed` / `aria-selected` = enfoncée), consigne « touchez » | relief remplacé par un fond turquoise doux |
+| `.rv-ico` | Icône de `assets/icons`, couleur du texte : `<i class="rv-ico" style="--ico: url('https://cdn.jsdelivr.net/gh/Rev0li/MyCss@v1.3.0/assets/icons/tools/docker.svg')"></i>`. **Adresse absolue obligatoire.** Taille : `--rv-ico-size` | — |
+| `.rv-sticker` | Sticker penché qui se redresse au survol (`<img>` ou `<svg>`), `--r` = angle ; 3 max par site | masqué |
 
 Petits écrans (≤ 760 px) : cibles de 44 px dans la barre, pas de déplacement des fenêtres au doigt. Les réglages de mise en page propres à une page (gouttières et tailles de titre en mobile, sections plein écran, stickers) restent dans la page.
 
@@ -72,6 +78,7 @@ Petits écrans (≤ 760 px) : cibles de 44 px dans la barre, pas de déplacement
 
 ## Versions
 
+- **v1.3.0** — stickers, icônes et favicon dans `assets/` (copiés du portfolio), composants `.rv-ico` et `.rv-sticker`.
 - **v1.2.0** — composants (`rv-components.css`), base optionnelle (`rv-base.css`), vitrine HTML. Retirés : l'ancienne vitrine Next.js et `dist/tokens.css` (obsolète, toujours servi par les anciens tags).
 - **v1.1.0** — mode sobre sombre, tokens de la planche (traits, arrondis, verre).
 - **v1.0.0** — palette v1 (clair, sombre, sobre).
