@@ -1,0 +1,42 @@
+/**
+ * MyCss — rv-base v1.2.0 : socle de page, optionnel.
+ * À charger après rv-tokens.css, seulement si la page n'a pas déjà sa propre base.
+ * Touche aux éléments (html, body, a, focus) : c'est le seul fichier qui le fait.
+ *
+ *   @import url('https://cdn.jsdelivr.net/gh/Rev0li/MyCss@v1.2.0/dist/rv-base.css');
+ *
+ * --rv-top : hauteur de ce qui est collé en haut (barre .rv-nav = 56 px).
+ * Les ancres arrivent juste dessous. La page la redéfinit si elle ajoute un bandeau.
+ */
+
+:root { --rv-top: 0px; }
+:root:has(.rv-nav) { --rv-top: 56px; }
+
+html {
+  scroll-padding-top: var(--rv-top);
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  overflow-x: clip; /* un élément poussé hors de l'écran ne crée pas de défilement horizontal */
+  background: var(--rv-bg);
+  color: var(--rv-ink);
+  font-family: var(--rv-font-sans);
+  font-size: var(--rv-text-body);
+  transition: background-color var(--rv-dur) var(--rv-ease), color var(--rv-dur) var(--rv-ease);
+}
+
+a { color: inherit; }
+
+/* Au doigt : pas de zoom au double toucher */
+:where(a, button, label, summary) { touch-action: manipulation; }
+
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: var(--rv-focus-ring);
+  outline-offset: var(--rv-focus-offset);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
