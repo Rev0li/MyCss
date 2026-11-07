@@ -50,6 +50,10 @@
   .keys { display: flex; gap: 8px; }
   .keys .rv-key { padding: 10px 14px; border-radius: var(--rv-radius-sm); font: inherit; font-weight: 600; }
 
+  .icons { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); }
+  .icons li { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: var(--rv-radius-sm); font-family: var(--rv-font-mono); font-size: 12px; --rv-ico-size: 22px; }
+  .icons li:hover { background: var(--rv-panel); }
+  .icons li:hover .rv-ico { color: var(--c, var(--rv-turq-ink)); }
   .side { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
   .side > div { padding: 28px; border-radius: var(--rv-radius-lg); background: var(--rv-bg); color: var(--rv-ink); border: var(--rv-line-w) solid var(--rv-line); display: grid; gap: 20px; }
 
@@ -78,6 +82,7 @@
     <a class="rv-nav-link" href="#palette">Palette</a>
     <a class="rv-nav-link" href="#typo">Typo</a>
     <a class="rv-nav-link" href="#composants">Composants</a>
+    <a class="rv-nav-link" href="#assets">Assets</a>
     <a class="rv-nav-link" href="#sobre">Sobre</a>
   </nav>
   <div class="tools">
@@ -95,7 +100,7 @@
 
 <main id="top">
   <section class="rv-sec hero">
-    <span class="rv-label rv-muted"><span class="rv-dot"></span>&nbsp; v1.2.0 · tokens + composants</span>
+    <span class="rv-label rv-muted"><span class="rv-dot"></span>&nbsp; v1.3.0 · tokens, composants, icônes</span>
     <h1>MyCss</h1>
     <p>Les tokens et les composants de l'univers Rev0, en CSS pur. Réglés sur la Home du portfolio, puis extraits ici. Changez le thème et le mode en haut à droite.</p>
     <div class="row">
@@ -193,6 +198,25 @@
         </div>
       </div>
     </div>
+  </section>
+
+  <section class="rv-sec" id="assets">
+    <h2 class="rv-h2">Stickers et icônes</h2>
+    <div>
+      <p class="rv-label rv-muted card-title">assets/stickers · .rv-sticker (3 max par site, masqués en sobre)</p>
+      <div class="row">
+        <img class="rv-sticker" src="assets/stickers/onigiri.svg" alt="" style="--r: -9deg">
+        <img class="rv-sticker" src="assets/stickers/envelope.svg" alt="" style="--r: -6deg">
+      </div>
+    </div>
+    <div>
+      <p class="rv-label rv-muted card-title">assets/icons/ui · au trait, couleur du texte</p>
+      <ul class="icons" data-icons="ui"></ul>
+    </div>
+    <div>
+      <p class="rv-label rv-muted card-title">assets/icons/tools · couleur de marque au survol (tools.json) · Simple Icons, CC0</p>
+      <ul class="icons" data-icons="tools"></ul>
+    </div>
     <a class="rv-next" href="#sobre"><span class="rv-next-q">Et en mode sobre ?</span><span class="rv-bob" aria-hidden="true">↓</span></a>
   </section>
 
@@ -232,10 +256,10 @@
   <section class="rv-sec" id="utiliser">
     <h2 class="rv-h2">L'utiliser</h2>
     <pre>/* Toujours un tag, jamais @main */
-@import url('https://cdn.jsdelivr.net/gh/Rev0li/MyCss@v1.2.0/dist/rv-tokens.css');
-@import url('https://cdn.jsdelivr.net/gh/Rev0li/MyCss@v1.2.0/dist/rv-components.css');
+@import url('https://cdn.jsdelivr.net/gh/Rev0li/MyCss@v1.3.0/dist/rv-tokens.css');
+@import url('https://cdn.jsdelivr.net/gh/Rev0li/MyCss@v1.3.0/dist/rv-components.css');
 /* Optionnel, si la page n'a pas déjà sa base (body, liens, focus) */
-@import url('https://cdn.jsdelivr.net/gh/Rev0li/MyCss@v1.2.0/dist/rv-base.css');</pre>
+@import url('https://cdn.jsdelivr.net/gh/Rev0li/MyCss@v1.3.0/dist/rv-base.css');</pre>
   </section>
 </main>
 
@@ -264,6 +288,16 @@
   // Paire Rev0 / sobre : même contenu dans les deux blocs
   const tpl = document.getElementById('pair');
   document.querySelectorAll('[data-sobre-pair]').forEach(box => box.append(tpl.content.cloneNode(true)));
+
+  // Icônes : listes tirées de assets/ (tools.json recopié ici : fetch ne marche pas en file://)
+  const ICONS = {
+    ui: ['sun', 'moon', 'lock', 'domaine-devops', 'domaine-securite', 'domaine-systemes', 'domaine-backend', 'domaine-frontend', 'domaine-ia', 'domaine-bas-niveau'].map(n => [n, null]),
+    tools: Object.entries({"kubernetes":"#326CE5","helm":"#0F1689","git":"#F05032","jenkins":"#D24939","bitbucket":"#0052CC","docker":"#2496ED","githubactions":"#2088FF","vault":"#FFEC6E","prometheus":"#E6522C","grafana":"#F46800","key":null,"fedora":"#51A2DA","suse":"#0C322C","windows":"#0078D4","tailscale":"#242424","caddy":"#1F88C0","synology":"#B5B5B6","java":"#E76F00","nodedotjs":"#5FA04E","python":"#3776AB","postgresql":"#4169E1","prisma":"#2D3748","php":"#777BB4","typescript":"#3178C6","angular":"#0F0F11","svelte":"#FF3E00","react":"#61DAFB","html5":"#E34F26","claude":"#D97757","githubcopilot":"#000000","spark":null,"n8n":"#EA4B71","globe":null,"openai":"#412991","gnubash":"#4EAA25","term":null,"cplusplus":"#00599C","lua":"#2C2D72","solidity":"#363636"})
+  };
+  for (const [dir, list] of Object.entries(ICONS)) {
+    document.querySelector(`[data-icons="${dir}"]`).innerHTML = list.map(([n, c]) =>
+      `<li style="${c ? '--c: ' + c : ''}"><i class="rv-ico" style="--ico: url('${new URL(`assets/icons/${dir}/${n}.svg`, location.href)}')" aria-hidden="true"></i>${n}</li>`).join('');
+  }
 
   // Touches : une seule choisie par groupe
   document.querySelectorAll('.keys').forEach(group => group.addEventListener('click', e => {
