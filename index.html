@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MyCss — tokens et composants Rev0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400..900&family=Pixelify+Sans:wght@400..600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="dist/rv-tokens.css">
+<link rel="stylesheet" href="dist/rv-base.css">
+<link rel="stylesheet" href="dist/rv-components.css">
+<style>
+  /* Mise en page de la vitrine seulement (pas livrée dans dist/) */
+  .demo-head { gap: 20px; }
+  .demo-head .brand { font-weight: 800; letter-spacing: -.02em; text-decoration: none; }
+  .demo-head .links { display: flex; gap: 14px; }
+  .demo-head .tools { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+  .demo-head .tools .rv-label { margin-right: 4px; }
+  .seg { display: inline-flex; }
+  .seg .rv-key { padding: 6px 12px; font: inherit; font-size: 13px; font-weight: 600; }
+  .seg .rv-key + .rv-key { margin-left: -1px; }
+  .seg .rv-key:first-child { border-radius: var(--rv-radius-sm) 0 0 var(--rv-radius-sm); }
+  .seg .rv-key:last-child { border-radius: 0 var(--rv-radius-sm) var(--rv-radius-sm) 0; }
+
+  .hero { padding-top: 96px; padding-bottom: 72px; gap: 20px; }
+  .hero h1 { margin: 0; font-size: var(--rv-text-hero); line-height: .9; letter-spacing: var(--rv-track-hero); font-weight: 800; }
+  .hero p { margin: 0; max-width: 60ch; font-size: var(--rv-text-lg); }
+  .rv-sec { gap: 32px; padding-top: 72px; padding-bottom: 72px; }
+  .rv-sec + .rv-sec { border-top: var(--rv-line-w) solid var(--rv-line); }
+
+  .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
+  .sw { border: var(--rv-line-w) solid var(--rv-line); border-radius: var(--rv-radius-md); overflow: hidden; background: var(--rv-surface); }
+  .sw i { display: block; height: 64px; background: var(--c); border-bottom: var(--rv-line-w) solid var(--rv-line); }
+  .sw div { padding: 10px 12px; display: grid; gap: 2px; font-size: 13px; }
+  .sw code { font-family: var(--rv-font-mono); font-size: 12px; }
+  .ink-row { display: flex; flex-wrap: wrap; gap: 10px 24px; font-weight: 600; }
+  .states { display: flex; flex-wrap: wrap; gap: 12px; }
+  .state { padding: 10px 14px; border-radius: var(--rv-radius-sm); font-size: 14px; }
+
+  .type { display: grid; gap: 18px; }
+  .type > div { display: grid; grid-template-columns: 180px 1fr; gap: 16px; align-items: baseline; }
+  .type p { margin: 0; }
+
+  .row { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+  .cols { display: grid; gap: 40px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); align-items: start; }
+  .card-title { margin: 0 0 12px; }
+  .win-body { padding: 20px; display: grid; gap: 10px; }
+  .win-body p { margin: 0; }
+  .keys { display: flex; gap: 8px; }
+  .keys .rv-key { padding: 10px 14px; border-radius: var(--rv-radius-sm); font: inherit; font-weight: 600; }
+
+  .side { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+  .side > div { padding: 28px; border-radius: var(--rv-radius-lg); background: var(--rv-bg); color: var(--rv-ink); border: var(--rv-line-w) solid var(--rv-line); display: grid; gap: 20px; }
+
+  pre { margin: 0; padding: 20px; overflow-x: auto; border-radius: var(--rv-radius-lg); background: var(--rv-band); color: var(--rv-band-ink); font-family: var(--rv-font-mono); font-size: 13px; line-height: 1.6; }
+  .rv-sec > .rv-next { margin-top: 0; }
+
+  @media (max-width: 760px) {
+    /* Mêmes réglages que la Home mobile du portfolio (restés côté page, pas dans dist/) */
+    :root, [data-mode] { --rv-gutter: 20px; --rv-text-h2: clamp(34px, 11.5vw, 44px); --rv-text-hero: clamp(40px, 14vw, 54px); }
+    .rv-sec { padding-top: 48px; padding-bottom: 48px; }
+    .demo-head { gap: 8px; }
+    .demo-head .brand, .demo-head .links { display: none; }
+    .demo-head .tools { margin-left: 0; gap: 6px; }
+    .seg .rv-key { padding: 6px 8px; font-size: 12px; }
+    .grid { grid-template-columns: repeat(2, 1fr); }
+    .side > div { padding: 18px; }
+    .type > div { grid-template-columns: 1fr; gap: 4px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="rv-nav demo-head">
+  <a class="brand" href="#top">MyCss</a>
+  <nav class="links" aria-label="Sections">
+    <a class="rv-nav-link" href="#palette">Palette</a>
+    <a class="rv-nav-link" href="#typo">Typo</a>
+    <a class="rv-nav-link" href="#composants">Composants</a>
+    <a class="rv-nav-link" href="#sobre">Sobre</a>
+  </nav>
+  <div class="tools">
+    <span class="seg" role="group" aria-label="Thème">
+      <button class="rv-key" data-theme-set="" aria-pressed="true">Auto</button>
+      <button class="rv-key" data-theme-set="light" aria-pressed="false">Clair</button>
+      <button class="rv-key" data-theme-set="dark" aria-pressed="false">Sombre</button>
+    </span>
+    <span class="seg" role="group" aria-label="Mode">
+      <button class="rv-key" data-mode-set="" aria-pressed="true">Rev0</button>
+      <button class="rv-key" data-mode-set="sobre" aria-pressed="false">Sobre</button>
+    </span>
+  </div>
+</header>
+
+<main id="top">
+  <section class="rv-sec hero">
+    <span class="rv-label rv-muted"><span class="rv-dot"></span>&nbsp; v1.2.0 · tokens + composants</span>
+    <h1>MyCss</h1>
+    <p>Les tokens et les composants de l'univers Rev0, en CSS pur. Réglés sur la Home du portfolio, puis extraits ici. Changez le thème et le mode en haut à droite.</p>
+    <div class="row">
+      <a class="rv-pill gel big" href="#utiliser">L'utiliser</a>
+      <a class="rv-pill big" href="https://github.com/Rev0li/MyCss">Le repo</a>
+    </div>
+  </section>
+
+  <section class="rv-sec" id="palette">
+    <h2 class="rv-h2">Palette</h2>
+    <div class="grid" data-swatches>
+      <!-- rempli par le script : nom du token + valeur calculée dans le mode courant -->
+    </div>
+    <div>
+      <p class="rv-label rv-muted">Texte coloré (variantes -ink, ≥ 4,5:1)</p>
+      <div class="ink-row">
+        <span style="color: var(--rv-turq-ink)">turq-ink</span>
+        <span style="color: var(--rv-rose-ink)">rose-ink</span>
+        <span style="color: var(--rv-violet-ink)">violet-ink · IA</span>
+        <span style="color: var(--rv-success-ink)">success-ink</span>
+        <span style="color: var(--rv-danger-ink)">danger-ink</span>
+        <span style="color: var(--rv-warning-ink)">warning-ink</span>
+      </div>
+    </div>
+    <div>
+      <p class="rv-label rv-muted">États (jamais décoratifs)</p>
+      <div class="states">
+        <span class="state" style="background: var(--rv-success-soft); color: var(--rv-success-ink)">Enregistré</span>
+        <span class="state" style="background: var(--rv-danger-soft); color: var(--rv-danger-ink)">Échec de connexion</span>
+        <span class="state" style="background: var(--rv-warning-soft); color: var(--rv-warning-ink)">Clé bientôt expirée</span>
+        <span class="state" style="background: var(--rv-success); color: var(--rv-on-accent)">on-accent</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="rv-sec" id="typo">
+    <h2 class="rv-h2">Typo</h2>
+    <div class="type">
+      <div><span class="rv-label rv-muted">h2 · 800</span><p class="rv-h2" style="font-size: min(var(--rv-text-h2), 12vw)">Rev0</p></div>
+      <div><span class="rv-label rv-muted">lg · 22 px</span><p style="font-size: var(--rv-text-lg)">De la cuisine au DevOps, une étape à la fois.</p></div>
+      <div><span class="rv-label rv-muted">body · 17 px</span><p>Schibsted Grotesk pour le texte courant : lisible, un peu de caractère.</p></div>
+      <div><span class="rv-label rv-muted">.rv-label</span><p class="rv-label">Étiquette · section 02</p></div>
+      <div><span class="rv-label rv-muted">.rv-mono</span><p class="rv-mono">docker compose up -d</p></div>
+      <div><span class="rv-label rv-muted">.rv-px (pas en sobre)</span><p class="rv-px" style="font-size: 22px">demo.app</p></div>
+    </div>
+  </section>
+
+  <section class="rv-sec" id="composants">
+    <h2 class="rv-h2">Composants</h2>
+    <div class="cols">
+      <div>
+        <p class="rv-label rv-muted card-title">.rv-win · fenêtre rétro (barre déplaçable)</p>
+        <div class="rv-win-wrap">
+          <div class="rv-win-ghost" hidden></div>
+          <span class="rv-win-tip">Tirez-moi !</span>
+          <div class="rv-win">
+            <div class="rv-win-bar" data-drag>
+              <span class="rv-gels"><i class="rv-gel"></i><i class="rv-gel rose"></i><i class="rv-gel ocre"></i></span>
+              <span class="rv-win-title"><span>demo.app</span></span>
+            </div>
+            <div class="win-body">
+              <p class="rv-label rv-muted"><span class="rv-dot"></span>&nbsp; en ligne</p>
+              <p>Une fenêtre se soulève quand on la saisit, puis revient à sa place au lâcher.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display: grid; gap: 28px">
+        <div>
+          <p class="rv-label rv-muted card-title">.rv-pill · .solid · .gel · :disabled</p>
+          <div class="row">
+            <button class="rv-pill">Pilule</button>
+            <button class="rv-pill solid">Solide</button>
+            <button class="rv-pill gel">Gel</button>
+            <button class="rv-pill gel" disabled>Envoi…</button>
+          </div>
+        </div>
+        <div>
+          <p class="rv-label rv-muted card-title">.rv-key · .rv-hint</p>
+          <div class="keys" role="tablist" aria-label="Exemple">
+            <button class="rv-key" role="tab" aria-selected="true">Infra</button>
+            <button class="rv-key" role="tab" aria-selected="false">CI/CD</button>
+            <button class="rv-key" role="tab" aria-selected="false">IA</button>
+          </div>
+          <p class="rv-hint rv-label"><span class="rv-bob">↑</span> touchez une touche</p>
+        </div>
+        <div>
+          <p class="rv-label rv-muted card-title">.rv-ulink · .rv-icon-btn · .rv-avatar</p>
+          <div class="row">
+            <a class="rv-ulink" href="#composants">Lien souligné</a>
+            <button class="rv-icon-btn" aria-label="Exemple de bouton icône">☾</button>
+            <span class="rv-avatar" aria-hidden="true"></span>
+            <a class="rv-nav-cta" href="#composants">CTA de barre →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="rv-next" href="#sobre"><span class="rv-next-q">Et en mode sobre ?</span><span class="rv-bob" aria-hidden="true">↓</span></a>
+  </section>
+
+  <section class="rv-sec" id="sobre">
+    <h2 class="rv-h2">Rev0 et sobre, côte à côte</h2>
+    <p class="rv-muted" style="margin: 0; max-width: 60ch">Les mêmes classes. Dans un bloc <code class="rv-mono">data-mode="sobre"</code>, les composants s'adaptent seuls : un seul accent, pas de police pixel, pas de gel, pas d'ombre dure.</p>
+    <div class="side">
+      <div data-sobre-pair>
+        <span class="rv-label rv-muted">Rev0 (portfolio)</span>
+      </div>
+      <div data-mode="sobre" data-sobre-pair>
+        <span class="rv-label rv-muted">Sobre (cas d'étude, applis)</span>
+      </div>
+    </div>
+    <template id="pair">
+      <div class="rv-win">
+        <div class="rv-win-bar">
+          <span class="rv-gels"><i class="rv-gel"></i><i class="rv-gel rose"></i><i class="rv-gel ocre"></i></span>
+          <span class="rv-win-title"><span>console.app</span></span>
+        </div>
+        <div class="win-body">
+          <p class="rv-label rv-muted">Membres</p>
+          <p>3 invitations en attente.</p>
+          <div class="row">
+            <button class="rv-pill gel">Inviter</button>
+            <button class="rv-pill">Annuler</button>
+          </div>
+        </div>
+      </div>
+      <div class="keys">
+        <button class="rv-key" aria-pressed="true">Mon espace</button>
+        <button class="rv-key" aria-pressed="false">Console</button>
+      </div>
+    </template>
+  </section>
+
+  <section class="rv-sec" id="utiliser">
+    <h2 class="rv-h2">L'utiliser</h2>
+    <pre>/* Toujours un tag, jamais @main */
+@import url('https://cdn.jsdelivr.net/gh/Rev0li/MyCss@v1.2.0/dist/rv-tokens.css');
+@import url('https://cdn.jsdelivr.net/gh/Rev0li/MyCss@v1.2.0/dist/rv-components.css');
+/* Optionnel, si la page n'a pas déjà sa base (body, liens, focus) */
+@import url('https://cdn.jsdelivr.net/gh/Rev0li/MyCss@v1.2.0/dist/rv-base.css');</pre>
+  </section>
+</main>
+
+<script>
+  // Vitrine seulement : sélecteurs de thème / mode, nuancier, démo de fenêtre déplaçable.
+  const root = document.documentElement;
+
+  function pick(attr, value, btn) {
+    if (value) root.setAttribute(attr, value); else root.removeAttribute(attr);
+    btn.parentElement.querySelectorAll('.rv-key').forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+    paintSwatches();
+  }
+  document.querySelectorAll('[data-theme-set]').forEach(b => b.addEventListener('click', () => pick('data-theme', b.dataset.themeSet, b)));
+  document.querySelectorAll('[data-mode-set]').forEach(b => b.addEventListener('click', () => pick('data-mode', b.dataset.modeSet, b)));
+
+  const tokens = ['bg', 'surface', 'panel', 'ink', 'muted', 'turq', 'rose', 'ocre', 'violet', 'success', 'danger', 'warning', 'band'];
+  const grid = document.querySelector('[data-swatches]');
+  grid.innerHTML = tokens.map(t => `<div class="sw" style="--c: var(--rv-${t})"><i></i><div><strong>${t}</strong><code>--rv-${t}</code><code data-v="${t}"></code></div></div>`).join('');
+  function paintSwatches() {
+    const cs = getComputedStyle(root);
+    grid.querySelectorAll('[data-v]').forEach(el => { el.textContent = cs.getPropertyValue('--rv-' + el.dataset.v).trim(); });
+  }
+  paintSwatches();
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', paintSwatches);
+
+  // Paire Rev0 / sobre : même contenu dans les deux blocs
+  const tpl = document.getElementById('pair');
+  document.querySelectorAll('[data-sobre-pair]').forEach(box => box.append(tpl.content.cloneNode(true)));
+
+  // Touches : une seule choisie par groupe
+  document.querySelectorAll('.keys').forEach(group => group.addEventListener('click', e => {
+    const k = e.target.closest('.rv-key'); if (!k) return;
+    const a = k.hasAttribute('aria-selected') ? 'aria-selected' : 'aria-pressed';
+    group.querySelectorAll('.rv-key').forEach(b => b.setAttribute(a, String(b === k)));
+    document.querySelector('.rv-hint')?.remove();
+  }));
+
+  // Fenêtre : la barre se saisit, la fenêtre suit puis revient
+  const wrap = document.querySelector('.rv-win-wrap');
+  const win = wrap.querySelector('.rv-win'), bar = wrap.querySelector('[data-drag]');
+  const ghost = wrap.querySelector('.rv-win-ghost'), tip = wrap.querySelector('.rv-win-tip');
+  let start = null;
+  bar.addEventListener('pointerdown', e => {
+    if (matchMedia('(max-width: 760px)').matches) return;
+    start = { x: e.clientX, y: e.clientY };
+    bar.setPointerCapture(e.pointerId);
+    win.classList.add('rv-win-lifted'); ghost.hidden = false;
+  });
+  bar.addEventListener('pointermove', e => {
+    if (!start) return;
+    for (const el of [win, tip]) {
+      el.style.setProperty('--x', (e.clientX - start.x) + 'px');
+      el.style.setProperty('--y', (e.clientY - start.y) + 'px');
+    }
+  });
+  const drop = () => {
+    if (!start) return;
+    start = null; win.classList.remove('rv-win-lifted'); ghost.hidden = true;
+    for (const el of [win, tip]) { el.style.removeProperty('--x'); el.style.removeProperty('--y'); }
+  };
+  bar.addEventListener('pointerup', drop);
+  bar.addEventListener('pointercancel', drop);
+</script>
+</body>
+</html>
