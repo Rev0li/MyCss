@@ -1,17 +1,18 @@
 /**
- * MyCss — rv-components v1.2.0 : composants Rev0.
+ * MyCss — rv-components v1.3.0 : composants Rev0.
  * Réglés et validés sur la Home du portfolio (PC, tablette, mobile), puis extraits ici.
  * Uniquement des tokens --rv-* ; uniquement des classes .rv-* (aucun style d'élément nu,
  * voir rv-base.css pour ça).
  *
- *   @import url('https://cdn.jsdelivr.net/gh/Rev0li/MyCss@v1.2.0/dist/rv-tokens.css');
- *   @import url('https://cdn.jsdelivr.net/gh/Rev0li/MyCss@v1.2.0/dist/rv-components.css');
+ *   @import url('https://cdn.jsdelivr.net/gh/Rev0li/MyCss@v1.3.0/dist/rv-tokens.css');
+ *   @import url('https://cdn.jsdelivr.net/gh/Rev0li/MyCss@v1.3.0/dist/rv-components.css');
  *
  * Mode sobre (data-mode="sobre") : les composants s'adaptent seuls — pas de police pixel,
  * bouton gel → bouton plein, fenêtres sans ombre dure ni trame (voir la fin du fichier).
  *
  * Sommaire : typo utilitaire · sections · fenêtre rétro · pilules · liens · pastille
- *            · question de bas de section · barre du haut · touches · écrans tactiles · sobre
+ *            · question de bas de section · barre du haut · touches · icône · sticker
+ *            · mouvement réduit · petits écrans · sobre
  */
 
 /* ── Typo utilitaire ── */
@@ -244,9 +245,37 @@
 .rv-hint .rv-bob { font-size: 14px; animation-name: rv-bobup; }
 @keyframes rv-bobup { 50% { transform: translateY(-4px); } }
 
+/* ── Icône (fichiers de assets/icons) : prend la couleur du texte ──
+   <i class="rv-ico" style="--ico: url('…/assets/icons/tools/docker.svg')" aria-hidden="true"></i>
+   Couleur de marque : style="color: #2496ED" (valeurs dans assets/icons/tools.json).
+   Adresse ABSOLUE obligatoire : une adresse relative serait lue depuis le dossier de ce CSS.
+   Taille : --rv-ico-size (1.25em par défaut). Le fichier doit être servi avec CORS
+   (jsDelivr : oui ; file:// : non, ouvrir la vitrine via un petit serveur local). */
+.rv-ico {
+  display: inline-block; flex: none; vertical-align: -.25em;
+  width: var(--rv-ico-size, 1.25em); height: var(--rv-ico-size, 1.25em);
+  background-color: currentColor;
+  -webkit-mask: var(--ico) center / contain no-repeat;
+  mask: var(--ico) center / contain no-repeat;
+}
+
+/* ── Sticker kawaii (fichiers de assets/stickers) : penché, se redresse au survol ──
+   <img class="rv-sticker" src="…/assets/stickers/onigiri.svg" alt="" style="--r: -9deg">
+   3 au plus par site, réservés aux pages vitrines : masqués en mode sobre.
+   Placement (marges) : à la page. */
+.rv-sticker {
+  display: inline-block; vertical-align: top;
+  width: 84px; height: 84px;
+  transform: rotate(var(--r, -8deg));
+  filter: drop-shadow(2px 3px 0 rgba(28, 26, 27, .18));
+  transition: transform var(--rv-dur) var(--rv-ease);
+}
+.rv-sticker:hover { transform: rotate(0deg) scale(1.08); }
+.rv-sticker > :is(svg, img) { display: block; width: 100%; height: 100%; }
+
 /* ── Mouvement réduit ── */
 @media (prefers-reduced-motion: reduce) {
-  .rv-win, .rv-win-lifted, .rv-win-tip, .rv-key { transition: none; }
+  .rv-win, .rv-win-lifted, .rv-win-tip, .rv-key, .rv-sticker { transition: none; }
   .rv-dot, .rv-bob { animation: none; }
   .rv-pill:hover { transform: none; }
 }
@@ -260,10 +289,12 @@
   .rv-bob { font-size: 20px; }
   .rv-win-bar[data-drag] { cursor: default; touch-action: auto; }
   .rv-win-tip { display: none; }
+  .rv-sticker { width: 56px; height: 56px; }
 }
 
 /* ── Mode sobre : cas d'étude et applis (rev0auth…) ──
    Un seul accent, pas de police pixel, pas de bouton gel, pas d'ombre dure. */
+[data-mode="sobre"] .rv-sticker { display: none; }
 [data-mode="sobre"] :is(.rv-px, .rv-win-title span) { font-family: var(--rv-font-sans); font-weight: 600; }
 [data-mode="sobre"] .rv-win {
   border-color: var(--rv-line-strong);

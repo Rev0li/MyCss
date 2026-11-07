@@ -1,9 +1,9 @@
 /**
- * MyCss — rv-base v1.2.0 : socle de page, optionnel.
+ * MyCss — rv-base v1.3.0 : socle de page, optionnel.
  * À charger après rv-tokens.css, seulement si la page n'a pas déjà sa propre base.
  * Touche aux éléments (html, body, a, focus) : c'est le seul fichier qui le fait.
  *
- *   @import url('https://cdn.jsdelivr.net/gh/Rev0li/MyCss@v1.2.0/dist/rv-base.css');
+ *   @import url('https://cdn.jsdelivr.net/gh/Rev0li/MyCss@v1.3.0/dist/rv-base.css');
  *
  * --rv-top : hauteur de ce qui est collé en haut (barre .rv-nav = 56 px).
  * Les ancres arrivent juste dessous. La page la redéfinit si elle ajoute un bandeau.
